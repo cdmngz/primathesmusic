@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primathes Music</title>
+    <link rel="shortcut icon" href="images/VitalyGorbachev.svg" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <video autoplay loop muted>
+      <source src="images/video.mp4" type="video/mp4">
+    </video>
+    <audio>
+      <source src="images/intro.mp3" type="audio/mpeg">
+    </audio>
+    <img  class="mono" src="images/DariusDan.svg">
+    <div id="monitor">
+      <div id="monitorscreen">
+        <iframe id="ytplayer" width="390" height="200" src="https://www.youtube.com/embed/videoseries?list=PLXaRlgvM7amBfGy8jHZm8OKF6eRmW12PV" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <nav class="redes">
+      <a href="https://www.youtube.com/channel/UCV4HGkeWk9-rRp5yuhRC5wg"><img src="images/youtube.svg"></a>
+      <a href="https://www.facebook.com/primathesmusic/"><img src="images/facebook.svg"></a>
+      <a href="https://www.spotify.com/primathesmusic/"><img src="images/spotify.svg"></a>
+      <a href="https://www.instagram.com/primathesmusic/"><img src="images/instagram.svg"></a>
+    </nav>
+    <img id="toasty" src="images/toasty.png">
+  </div>
+  <script>
+    // let mono = document.querySelector('.mono')
+
+    // mono.addEventListener('click', () => {
+    //   document.querySelector('audio').play()
+    // })
+
+    // Video simple youtube
+    // const tag = document.createElement('script');
+    // tag.src = "https://www.youtube.com/player_api";
+    // const firstScriptTag = document.getElementsByTagName('script')[0];
+    // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    // // Replace the 'ytplayer' element with an <iframe> and
+    // // YouTube player after the API code downloads.
+    // let player
+    // function onYouTubePlayerAPIReady() {
+    //   player = new YT.Player('ytplayer', {
+    //     videoId: 'ty903fJ5D2o',
+    //     width: '390',
+    //     height: '200',
+    //     listType: 'playlist',
+    //     list: 'PLXaRlgvM7amBfGy8jHZm8OKF6eRmW12PV',
+    //     playerVars: {
+    //       autoplay: 1,
+    //       autohide: 1
+    //     }
+    //   });
+    // }
+  </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyASuOJVNrG7cKVWPrbYFpTsuYUWJs7wyr0",
+      authDomain: "primathesmusic.firebaseapp.com",
+      databaseURL: "https://primathesmusic.firebaseio.com",
+      projectId: "primathesmusic",
+      storageBucket: "primathesmusic.appspot.com",
+      messagingSenderId: "731307640803",
+      appId: "1:731307640803:web:ae744bc10eb5aaf75442d6",
+      measurementId: "G-DT48T1M7TZ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+</body>
+</html>
