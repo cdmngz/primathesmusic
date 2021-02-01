@@ -3,69 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Primathes music, creating chill & good music for this jungle!">
+    <meta name="keywords" content="primathes, nice music, enjoy">
     <title>Primathes Music</title>
     <link rel="shortcut icon" href="images/VitalyGorbachev.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="megacontenedor">
+    <h1 id="textoIntro">Primathes</h1>
+  </div>
   <div class="container">
     <video autoplay loop muted>
-      <source src="images/video.mp4" type="video/mp4">
+      <source src="./media/space.mp4" type="video/mp4">
     </video>
     <audio>
-      <source src="images/intro.mp3" type="audio/mpeg">
+      <source src="./media/intro.ogg" type="audio/mpeg">
     </audio>
     <img  class="mono" src="images/DariusDan.svg">
-    <div id="monitor">
-      <div id="monitorscreen">
-        <iframe id="ytplayer" width="390" height="200" src="https://www.youtube.com/embed/videoseries?list=PLXaRlgvM7amBfGy8jHZm8OKF6eRmW12PV" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
     <nav class="redes">
-      <a href="https://www.youtube.com/channel/UCV4HGkeWk9-rRp5yuhRC5wg"><img src="images/youtube.svg"></a>
-      <a href="https://www.facebook.com/primathesmusic/"><img src="images/facebook.svg"></a>
-      <a href="https://www.instagram.com/primathesmusic/"><img src="images/instagram.svg"></a>
+      <a href="https://www.youtube.com/watch?v=P48GmixkMNY&list=PLXaRlgvM7amBfGy8jHZm8OKF6eRmW12PV"><img data-name="Youtube" src="images/youtube.svg"></a>
+      <a href="https://www.facebook.com/primathesmusic/"><img data-name="Facebook" src="images/facebook.svg"></a>
+      <a href="https://open.spotify.com/artist/1JAaDLK7v5DO9nIwAjGRr9"><img data-name="Spotify" src="images/spotify.svg"></a>
+      <a href="https://www.instagram.com/primathesmusic/"><img data-name="Instagram" src="images/instagram.svg"></a>
+      <a href="https://www.tiktok.com/@primathes/"><img data-name="TikTok" src="images/tik-tok.svg"></a>
     </nav>
     <img id="toasty" src="images/toasty.png">
   </div>
+  <aside id="right">
+    <div><img src="images/beach.svg" data-index="1"></div>
+    <div><img src="images/eclipse.svg" data-index="2"></div>
+    <div><img src="images/pirate.svg" data-index="0"></div>
+  </aside>
+
   <script>
-    // let mono = document.querySelector('.mono')
+    
+    let i = 0
+    const redes = document.querySelector('.redes').childNodes
+    const mono = document.querySelector('.mono')
+    const right = document.querySelector('#right').childNodes
+    const video = document.querySelector('video')
+    const audio = document.querySelector('audio')
+    const spotifyTimeText = setInterval(myTimer, 1000)
+    const textos = ['ahora', 'en', '<img height="60" src="./images/spotify.svg"> Spotify']
+    const presentation = [
+      {
+        name: 'Para',
+        audioSrc: './media/para.ogg',
+        videoSrc: './media/para.mp4',
+        color: '#212152'
+      },
+      {
+        name: 'Tenerife',
+        audioSrc: './media/tet.ogg',
+        videoSrc: './media/beach.mp4',
+        color: '#FF8'
+      },
+      {
+        name: 'EMDV',
+        audioSrc: './media/emdv.ogg',
+        videoSrc: './media/world.mp4',
+        color: '#540e25'
+      }
+    ]
 
-    // mono.addEventListener('click', () => {
-    //   document.querySelector('audio').play()
-    // })
+    redes.forEach(element => {
+      element.addEventListener('click', (event) => {
+        const click_red_social = event.target.getAttribute("data-name")
+        firebase.analytics().logEvent(click_red_social)
+      })
+    })
 
-    // Video simple youtube
-    // const tag = document.createElement('script');
-    // tag.src = "https://www.youtube.com/player_api";
-    // const firstScriptTag = document.getElementsByTagName('script')[0];
-    // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    // // Replace the 'ytplayer' element with an <iframe> and
-    // // YouTube player after the API code downloads.
-    // let player
-    // function onYouTubePlayerAPIReady() {
-    //   player = new YT.Player('ytplayer', {
-    //     videoId: 'ty903fJ5D2o',
-    //     width: '390',
-    //     height: '200',
-    //     listType: 'playlist',
-    //     list: 'PLXaRlgvM7amBfGy8jHZm8OKF6eRmW12PV',
-    //     playerVars: {
-    //       autoplay: 1,
-    //       autohide: 1
-    //     }
-    //   });
-    // }
+    mono.addEventListener('click', () => {
+      let textoAnalytics = "play_music"
+      audio.paused
+        ? [audio.play(), mono.style.opacity = 1, textoAnalytics = "play_music"]
+        : [audio.pause(), mono.style.opacity = .6, textoAnalytics = "stop_music"]
+      firebase.analytics().logEvent(textoAnalytics)
+    })
+
+    right.forEach(element => element.addEventListener('click', rightButtonClicked))
+
+
+    function rightButtonClicked(event) {
+      let click = isMusicPlaying()
+      const index = event.target.getAttribute("data-index")
+      audio.setAttribute('src', presentation[index].audioSrc)
+      video.setAttribute('src', presentation[index].videoSrc)
+      video.load()
+      changeBackgroundColor(right, presentation[index].color)
+      click ? audio.play() : null;
+      firebase.analytics().logEvent(`song_${presentation[index].name}`)
+    }
+
+    function changeBackgroundColor(array, color) {
+      array.forEach(element => {
+        element.nodeName.toLowerCase() === 'div' ? element.style.backgroundColor = color : null;
+      })
+    }
+
+    function myTimer() {
+      document.querySelector('#textoIntro').innerHTML = textos[i]
+      i++
+      if(i>2) {
+        document.querySelector('.megacontenedor').style.backgroundColor = '#1db954'
+        document.querySelector('#textoIntro').style.color = '	#212121'
+        myStopFunction()
+        setInterval(() => {
+          document.querySelector('.megacontenedor').style.display = 'none'
+        }, 3000)
+      }
+    }
+    function myStopFunction() {
+      clearInterval(spotifyTimeText);
+    }
+
+    function isMusicPlaying() {
+      return !audio.paused
+    }
+    
   </script>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
 
   <!-- TODO: Add SDKs for Firebase products that you want to use
-      https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
+  https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
   <script>
     // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     var firebaseConfig = {
       apiKey: "AIzaSyASuOJVNrG7cKVWPrbYFpTsuYUWJs7wyr0",
       authDomain: "primathesmusic.firebaseapp.com",
